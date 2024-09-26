@@ -5,13 +5,13 @@ import RepoList from "./RepoList.jsx";
 import NavButtons from "./NavButtons.jsx";
 import SearchBox from "./SearchBox.jsx";
 import Footer from "./Footer.jsx";
-import { FaSun, FaMoon } from "react-icons/fa"; // Importing icons for day/night mode
+import { FaSun, FaMoon } from "react-icons/fa";
 
 function App() {
   const [userName, setUserName] = useState("");
   const [repoList, setRepoList] = useState(null);
-  const [pageCount, setPageCount] = useState(10); // Items per page
-  const [queryString, setQueryString] = useState(""); // Set to empty string for default search
+  const [pageCount, setPageCount] = useState(10);
+  const [queryString, setQueryString] = useState("");
   const [totalCount, setTotalCount] = useState(null);
   const [startCursor, setStartCursor] = useState(null);
   const [endCursor, setEndCursor] = useState(null);
@@ -20,7 +20,6 @@ function App() {
   const [paginationString, setPaginationString] = useState("");
   const [paginationKeyword, setPaginationKeyword] = useState("first");
 
-  // Debounce function to limit API calls when typing
   const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {
@@ -46,6 +45,7 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data, "API_DATA");
         const viewer = data.data.viewer;
         const repoList = data.data.search.edges;
         const total = data.data.search.repositoryCount;
@@ -65,19 +65,22 @@ function App() {
 
   useEffect(() => {
     // Fetch last 10 updated repositories on initial load
-    setQueryString(""); // Reset queryString for default search
+    // setQueryString(""); // Reset queryString for default search
     fetchData();
   }, [fetchData]);
 
-  // Debounced function to handle query change
-  const handleQueryChange = useCallback(
+  const debounceFetchData = useCallback(
     debounce((newQuery) => {
-      setQueryString(newQuery);
-      fetchData(); // Trigger the fetch after query change
+      setQueryString(newQuery); // Set the query state (redundant but safe)
+      fetchData(); // Fetch data based on the updated query
     }, 500), // Delay by 500ms
     [fetchData]
   );
 
+  const handleQueryChange = (newQuery) => {
+    setQueryString(newQuery); // Update the input field immediately
+    debounceFetchData(newQuery); // Trigger debounced fetchData call
+  };
   // Theme toggle (Day/Night)
   const [darkMode, setDarkMode] = useState(false);
 
@@ -87,19 +90,16 @@ function App() {
         darkMode ? "bg-slate-950 text-white" : "bg-white text-black"
       } min-h-screen flex flex-col`}
     >
-      {/* Background for light mode */}
       {!darkMode && (
         <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
           <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)]"></div>
         </div>
       )}
-      {/* Background for dark mode */}
       {darkMode && (
         <div className="relative h-full w-full">
           <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
         </div>
       )}
-      {/* Toggle Day/Night Mode with icons */}
       <button
         onClick={() => setDarkMode(!darkMode)}
         className="absolute top-4 right-4 px-3 py-1 bg-blue-500 text-white rounded-md flex items-center"
@@ -130,8 +130,9 @@ function App() {
           totalCount={totalCount}
           pageCount={pageCount}
           queryString={queryString}
+          setQueryString={setQueryString}
           onTotalChange={setPageCount}
-          onQueryChange={handleQueryChange} // Use the debounced function
+          onQueryChange={handleQueryChange}
           darkMode={darkMode} // Pass darkMode
         />
         {/* Dynamic Heading */}

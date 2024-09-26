@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
 /* eslint-disable react/prop-types */
 
-const SearchBox = ({ queryString, onQueryChange, darkMode }) => {
+const SearchBox = ({
+  queryString,
+  setQueryString,
+  darkMode,
+  debounceFetchData,
+}) => {
+  const handleQueryChange = (newQuery) => {
+    setQueryString(newQuery); // Update the input field immediately
+    // Trigger debounced fetchData call
+  };
+
+  // Separate the debounced function for fetching data
+  console.log(queryString, "TYPEDWORD");
   return (
     <motion.div
       className="mb-6 w-full"
@@ -16,7 +28,7 @@ const SearchBox = ({ queryString, onQueryChange, darkMode }) => {
           darkMode ? "bg-slate-800 text-white" : "bg-white text-black"
         }`}
         value={queryString}
-        onChange={(e) => onQueryChange(e.target.value)} // Ensure this is updating the state
+        onChange={(e) => handleQueryChange(e.target.value)} // Immediate update on typing
       />
     </motion.div>
   );
