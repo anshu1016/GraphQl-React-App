@@ -1,14 +1,7 @@
 import { motion } from "framer-motion";
 /* eslint-disable react/prop-types */
 
-const SearchBox = ({
-  totalCount,
-  pageCount,
-  queryString,
-  onTotalChange,
-  onQueryChange,
-  darkMode,
-}) => {
+const SearchBox = ({ queryString, onQueryChange, darkMode }) => {
   return (
     <motion.div
       className="mb-6 w-full"
@@ -23,7 +16,7 @@ const SearchBox = ({
           darkMode ? "bg-slate-800 text-white" : "bg-white text-black"
         }`}
         value={queryString}
-        onChange={(e) => onQueryChange(e.target.value)}
+        onChange={(e) => onQueryChange(e.target.value)} // Ensure this is updating the state
       />
     </motion.div>
   );

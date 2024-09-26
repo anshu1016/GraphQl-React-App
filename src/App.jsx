@@ -4,7 +4,6 @@ import { githubQuery } from "./query.js";
 import RepoList from "./RepoList.jsx";
 import NavButtons from "./NavButtons.jsx";
 import SearchBox from "./SearchBox.jsx";
-// import { motion } from "framer-motion"; // For animations
 import Footer from "./Footer.jsx";
 import { FaSun, FaMoon } from "react-icons/fa"; // Importing icons for day/night mode
 
@@ -20,6 +19,17 @@ function App() {
   const [hasNextPage, setHasNextPage] = useState(true);
   const [paginationString, setPaginationString] = useState("");
   const [paginationKeyword, setPaginationKeyword] = useState("first");
+
+  // Debounce function to limit API calls when typing
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
 
   const fetchData = useCallback(() => {
     const query = githubQuery({
@@ -59,6 +69,15 @@ function App() {
     fetchData();
   }, [fetchData]);
 
+  // Debounced function to handle query change
+  const handleQueryChange = useCallback(
+    debounce((newQuery) => {
+      setQueryString(newQuery);
+      fetchData(); // Trigger the fetch after query change
+    }, 500), // Delay by 500ms
+    [fetchData]
+  );
+
   // Theme toggle (Day/Night)
   const [darkMode, setDarkMode] = useState(false);
 
@@ -95,13 +114,24 @@ function App() {
         <h1 className="text-4xl font-bold mb-4">
           {userName ? `${userName} Repositories` : "Repositories"}
         </h1>
+        <NavButtons
+          start={startCursor}
+          end={endCursor}
+          next={hasNextPage}
+          previous={hasPreviousPage}
+          onPage={(mykeyword, myString) => {
+            setPaginationKeyword(mykeyword);
+            setPaginationString(myString);
+          }}
+          darkMode={darkMode} // Pass darkMode
+        />
         {/* Search Box */}
         <SearchBox
           totalCount={totalCount}
           pageCount={pageCount}
           queryString={queryString}
           onTotalChange={setPageCount}
-          onQueryChange={setQueryString}
+          onQueryChange={handleQueryChange} // Use the debounced function
           darkMode={darkMode} // Pass darkMode
         />
         {/* Dynamic Heading */}
