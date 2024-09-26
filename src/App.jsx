@@ -4,7 +4,7 @@ import { githubQuery } from "./query.js";
 import RepoList from "./RepoList.jsx";
 import NavButtons from "./NavButtons.jsx";
 import SearchBox from "./SearchBox.jsx";
-import { motion } from "framer-motion"; // For animations
+// import { motion } from "framer-motion"; // For animations
 import Footer from "./Footer.jsx";
 import { FaSun, FaMoon } from "react-icons/fa"; // Importing icons for day/night mode
 
