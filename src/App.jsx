@@ -136,18 +136,17 @@ function App() {
           darkMode={darkMode} // Pass darkMode
         />
         {/* Dynamic Heading */}
-        <div className = 'flex items-center mx-auto justify-between> 
-        <h2 className="text-2xl font-semibold mb-4">
-          {queryString
-            ? `Repositories for "${queryString}":`
-            : "Last 10 Updated Repositories:"}
-        </h2>
-         <h2 className="text-2xl font-semibold mb-4">
-           {
-             totalCount && Total Repositories: {totalCount}
-           }
-           </h2>
-        </div>
+       <div className="flex items-center mx-auto justify-between">
+  <h2 className="text-2xl font-semibold mb-4">
+    {queryString
+      ? `Repositories for "${queryString}":`
+      : "Last 10 Updated Repositories:"}
+  </h2>
+  <h2 className="text-2xl font-semibold mb-4">
+    {totalCount && `Total Repositories: ${totalCount}`}
+  </h2>
+</div>
+
         {/* Repo List */}
         {repoList?.length > 0 ? (
           repoList.map((repo) => (
