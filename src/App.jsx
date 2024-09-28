@@ -45,7 +45,7 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "API_DATA");
+        // console.log(data, "API_DATA");
         const viewer = data.data.viewer;
         const repoList = data.data.search.edges;
         const total = data.data.search.repositoryCount;
