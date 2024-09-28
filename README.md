@@ -1,8 +1,9 @@
-# GitHub Repository Explorer
+# GitHub Repository Explorer [Live App](https://graph-ql-react-git-repo-explorer-app-cmux.vercel.app/#graphql)
 
 ## Description
 
 GitHub Repository Explorer is a React application that allows users to search for and view repositories on GitHub. The app displays repositories based on the last 10 commits or updates by default, providing users with a quick overview of the most active projects. The interface is user-friendly, supporting dark and light themes for improved accessibility.
+<img width="959" alt="image" src="https://github.com/user-attachments/assets/f8e6d0d1-9c91-4de2-b25e-ecfc0d9e1a0c">
 
 ## Features
 
