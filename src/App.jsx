@@ -143,7 +143,7 @@ function App() {
       : "Last 10 Updated Repositories:"}
   </h2>
   <h2 className="text-2xl font-semibold mb-4">
-    {totalCount && `Total Repositories: ${totalCount}`}
+    {totalCount && `Total Repositories: ${repoList.length}`}
   </h2>
 </div>
 
