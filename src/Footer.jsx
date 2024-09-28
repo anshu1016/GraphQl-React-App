@@ -11,25 +11,24 @@ const Footer = () => {
       <br />
       <div className="flex justify-center space-x-6 ">
         <a
-          href="https://linkedin.com"
+          href="https://www.linkedin.com/in/arun-shukla-1399a9196/"
           target="_blank"
-          rel="noopener noreferrer"
           className="flex items-center hover:text-blue-500 cursor-pointer"
         >
           <FaLinkedin className="text-lg" />
         </a>
         <a
-          href="https://github.com"
+          href="https://github.com/anshu1016"
           target="_blank"
-          rel="noopener noreferrer"
+         
           className="flex items-center hover:text-gray-300 cursor-pointer"
         >
           <FaGithub className="text-lg" />
         </a>
         <a
-          href="https://hashnode.com"
+          href="https://hashnode.com/@Anshu07"
           target="_blank"
-          rel="noopener noreferrer"
+          
           className="flex items-center hover:text-green-400 cursor-pointer"
         >
           <FaHashnode className="text-lg" />
